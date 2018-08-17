@@ -9,10 +9,10 @@ const User = require('../models/user');
 
 const app = express();
 
-/*app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));*/
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-/*
+
 const ensureToken = (req, res, next) => {
     const header = req.headers['Authorization'];
     if(header !== 'undefined') {
@@ -21,14 +21,14 @@ const ensureToken = (req, res, next) => {
     } else {
         res.sendStatus(403);
     }
-}*/
+}
 
 app.get('/', (req, res) => {
     res.json({
         service: 'user-service',
     });
 });
-/*
+
 app.get('/user', async (req, res) => {
     let user;
     if (req.query.userId)
@@ -41,14 +41,14 @@ app.get('/user', async (req, res) => {
     res.json(user);
 });
 
-/*
+
 app.get('/protectedTest', ensureToken, (req, res) => {
     jwt.verify(req.token, ENV.jwtSecret, (err, data) => {
         if(err) res.sendStatus(403);
         res.redirect('/');
     });
-});*/
-/*
+});
+
 app.post('/login', async (req, res) => {
     const email = req.body.email;
     const pw = req.body.password;
@@ -74,7 +74,7 @@ app.post('/signup', async (req, res) => {
         res.statusCode = 500;
         res.json(e);
     }
-});*/
+});
 
 module.exports = app;
 //export default app

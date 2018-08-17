@@ -1,10 +1,10 @@
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
 const ENV = require('../src/env');
-const app = request('../');
-//const app = request('../src/app');
-//const req = request(app);
-const req = request('http://localhost:3000');
+//const app = require('../');
+const app = require('../src/app');
+const req = request(app);
+//const req = request('http://localhost:3000');
 
 function getQueryURL(obj){
     let query = ''
