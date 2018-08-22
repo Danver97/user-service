@@ -75,11 +75,19 @@ describe('Integration test exaple', function() {
         
     });//*/
     
-});
-
-/*it('get /user', async function() {
-            await req
+    /*
+    it('get /user', async function () {
+        await req
             .get('/user?email=' + user.email)
             .expect(200)
-            .expect(JSON.stringify(user));
-        });*/
+            .expect(res => {
+                const respose = res.body;
+                const expected = JSON.parse(JSON.stringify(user));
+                delete expected.password;
+                assert.strictEqual(respose, expected);
+            });
+    });*/
+    
+});
+
+/**/

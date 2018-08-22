@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
-//const request = require('supertest');
 
 const ENV = require('./env');
 const usrManager = require('../modules/userManager');
@@ -31,14 +30,26 @@ app.get('/', (req, res) => {
 
 app.get('/user', async (req, res) => {
     let user;
-    if (req.query.userId)
-        user = await usrManager.getUser(req.query.userid);
-    else if (req.query.email)
-        user = await usrManager.getUserByEmail(req.query.email);
-    else if (req.query.username)
-        user = await usrManager.getUserByUsername(req.query.username);
-    delete user.password
-    res.json(user);
+    const query = req.query;
+    try {
+        if(!query.userId && !query.email && !query.username){
+            res.status(400);
+            res.json({error: 'No query parameter received. Please use one of these: userId, email, username'});
+            return;
+        }
+        if (req.query.userId)
+            user = await usrManager.getUser(req.query.userid);
+        else if (req.query.email)
+            user = await usrManager.getUserByEmail(req.query.email);
+        else if (req.query.username)
+            user = await usrManager.getUserByUsername(req.query.username);
+        delete user.password
+        res.status(200);
+        res.json(user);
+    } catch(e) {
+        res.status(e.code || 500);
+        res.json(e);
+    }
 });
 
 
@@ -58,7 +69,7 @@ app.post('/login', async (req, res) => {
         res.json({success: true});
     } catch(e) {
         // should check the error type;
-        res.statusCode = 500;
+        res.status(e.code || 500);
         res.json(e);
     }
 });
@@ -71,10 +82,9 @@ app.post('/signup', async (req, res) => {
         res.json({success: true});
     } catch (e) {
         console.log(e);
-        res.statusCode = 500;
+        res.status(e.code || 500);
         res.json(e);
     }
 });
 
 module.exports = app;
-//export default app
