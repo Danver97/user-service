@@ -32,7 +32,7 @@ app.get('/user', async (req, res) => {
     let user;
     const query = req.query;
     try {
-        if(!query.userId && !query.email && !query.username){
+        if(!query.userId && !query.email /* && !query.username */){
             res.status(400);
             res.json({error: 'No query parameter received. Please use one of these: userId, email, username'});
             return;

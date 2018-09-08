@@ -105,6 +105,11 @@ describe('UserManager unit test', function () {
         equals(result, user);
     });
     
+    it('check if getUserByUsername() works', async function() {
+        const result = await usrManager.getUserByUsername(user.username);
+        equals(result, user);
+    });
+    
     it('check if checkAuthentication() works', async function() {
         const result = await usrManager.checkAuthentication(user.email, newPass);
         equals(result, user);

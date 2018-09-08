@@ -95,6 +95,17 @@ function getUserByEmail(mail) {
     });
 }
 
+function getUserByUsername(username) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await repo.getUserByUsername(username);
+            resolve(user);
+        } catch(e) {
+            reject(e);
+        }
+    });
+}
+
 function checkAuthentication(mail, password) {
     return new Promise(async (resolve, reject) => {
         try {
@@ -116,7 +127,8 @@ module.exports = {
     userRemoved: userRemoved,
     passwordChanged: passwordChanged,
     propertyChanged,
-    checkAuthentication,
-    getUser: getUser,
+    getUser,
     getUserByEmail,
+    getUserByUsername,
+    checkAuthentication,
 }

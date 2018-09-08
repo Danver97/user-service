@@ -87,4 +87,15 @@ describe('RepositoryManager unit test', function () {
             equals(result, user);
         });
     });
+    
+    it('check if getUserByUsername() works', async function () {
+        const result = await repo.getUserByUsername(user.username);
+        equals(result, user);
+    });
+    
+    it('check if getUserByUsername() works with cb', async function () {
+        await repo.getUserByUsername(user.username, (err, result) => {
+            equals(result, user);
+        });
+    });
 });
