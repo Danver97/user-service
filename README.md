@@ -7,8 +7,8 @@ In particular it relies on an in-memory mocked event store database (you can fin
 
 Introduced support for AWS. Under `/lib/AWS` it's possible to find a module used for create the AWS infrastructure used as Event Store and Event Broker for an event sourcing platform. The purpose for this module is to ensure that every AWS service is configured properly before starting accepting requests.
 
-A big part of the entire project is still under development. In particular everything about events reply and event aggregates' projections aren't implemented yet. For now, the main design is:
-- Reply events from the event store (on AWS: DynamoDB) (this stage is optional if the projection is "up to date")
+A big part of the entire project is still under development. In particular everything about events replay and event aggregates' projections aren't implemented yet. For now, the main design is:
+- Replay events from the event store (on AWS: DynamoDB) (this stage is optional if the projection is "up to date")
 - Enqueue them in an event broker (on AWS: SQS)
 - Poll the event broker and make events deduplication & idempotency checks before applying them on the projection.
 
