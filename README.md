@@ -4,6 +4,7 @@ Right now it's under development so a big part of it it's mocked in order to get
 In particular it relies on an in-memory mocked event store database (you can find it under `user-service/modules/db`).
 
 **Update 03/11/2018: Introduced support for AWS**
+
 Introduced support for AWS. Under `/lib/AWS` it's possible to find a module used for create the AWS infrastructure used as Event Store and Event Broker for an event sourcing platform. The purpose for this module is to ensure that every AWS service is configured properly before starting accepting requests.
 
 A big part of the entire project is still under development. In particular everything about events reply and event aggregates' projections aren't implemented yet. For now, the main design is:
