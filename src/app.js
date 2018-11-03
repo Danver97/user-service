@@ -14,13 +14,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const ensureToken = (req, res, next) => {
     const header = req.headers['Authorization'];
-    if(header !== 'undefined') {
+    if (header !== 'undefined') {
         req.token = header.split(' ')[1];
         next();
-    } else {
+    } else
         res.sendStatus(403);
-    }
-}
+};
 
 app.get('/', (req, res) => {
     res.json({
@@ -32,9 +31,9 @@ app.get('/user', async (req, res) => {
     let user;
     const query = req.query;
     try {
-        if(!query.userId && !query.email /* && !query.username */){
+        if (!query.userId && !query.email /* && !query.username */) {
             res.status(400);
-            res.json({error: 'No query parameter received. Please use one of these: userId, email, username'});
+            res.json({ error: 'No query parameter received. Please use one of these: userId, email, username' });
             return;
         }
         if (req.query.userId)
@@ -43,10 +42,10 @@ app.get('/user', async (req, res) => {
             user = await usrManager.getUserByEmail(req.query.email);
         else if (req.query.username)
             user = await usrManager.getUserByUsername(req.query.username);
-        delete user.password
+        delete user.password;
         res.status(200);
         res.json(user);
-    } catch(e) {
+    } catch (e) {
         res.status(e.code || 500);
         res.json(e);
     }
@@ -54,8 +53,8 @@ app.get('/user', async (req, res) => {
 
 
 app.get('/protectedTest', ensureToken, (req, res) => {
-    jwt.verify(req.token, ENV.jwtSecret, (err, data) => {
-        if(err) res.sendStatus(403);
+    jwt.verify(req.token, ENV.jwtSecret, err => {
+        if (err) res.sendStatus(403);
         res.redirect('/');
     });
 });
@@ -65,9 +64,9 @@ app.post('/login', async (req, res) => {
     const pw = req.body.password;
     try {
         const user = await usrManager.checkAuthentication(email, pw);
-        res.header('Authorization', 'Bearer ' + jwt.sign({ user }, ENV.jwtSecret));
-        res.json({success: true});
-    } catch(e) {
+        res.header('Authorization', `Bearer ${jwt.sign({ user }, ENV.jwtSecret)}`);
+        res.json({ success: true });
+    } catch (e) {
         // should check the error type;
         res.status(e.code || 500);
         res.json(e);
@@ -79,7 +78,7 @@ app.post('/signup', async (req, res) => {
     try {
         await usrManager.userCreated(new User(body.email, body.password, body.username, body.name, body.surname));
         res.statusCode = 200;
-        res.json({success: true});
+        res.json({ success: true });
     } catch (e) {
         console.log(e);
         res.status(e.code || 500);

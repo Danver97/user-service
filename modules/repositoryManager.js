@@ -1,9 +1,11 @@
 const ENV = require('../src/env');
+const testdb = require('./db/testdb');
+const persistence = require('./eventSourcing/persistence');
 
 let dbmanager;
-// if (ENV.test === 'dynamodb') { dbmanager = require('./dbs/dynamodb'); }
-if (ENV.test === 'true')
-    dbmanager = require('./dbs/testdb');
+// if (ENV.test === 'dynamodb') { dbmanager = require('./db/dynamodb'); }
+if (ENV.test === 'true') dbmanager = testdb;
+if (ENV.node_env === 'test_event_sourcing') dbmanager = persistence;
 
 const implem = require('./implements');
 

@@ -1,134 +1,87 @@
 const repo = require('./repositoryManager');
 const User = require('../models/user');
+const UserError = require('../errors/user_error');
+const Promisify = require('../lib/utils').promisify;
 
-function userCreated(user) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            user.created();
-            await repo.userCreated(user);
-            resolve(user);
-        } catch(e) {
-            reject(e);
-        }
-    });
+function userCreated(user, cb) {
+    return Promisify(async () => {
+        user.created();
+        await repo.userCreated(user);
+        return user;
+    }, cb);
 }
 
-function userConfirmed(user) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            user.confirmed();
-            await repo.userConfirmed(user);
-            resolve(user);
-        } catch(e) {
-            reject(e);
-        }
-    });
+function userConfirmed(user, cb) {
+    return Promisify(async () => {
+        user.confirmed();
+        await repo.userConfirmed(user);
+        return user;
+    }, cb);
 }
 
-function userRemoved(user) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            user.removed();
-            await repo.userRemoved(user);
-            resolve(user);
-        } catch(e) {
-            reject(e);
-        }
-    });
+function userRemoved(user, cb) {
+    return Promisify(async () => {
+        user.removed();
+        await repo.userRemoved(user);
+        return user;
+    }, cb);
 }
 
 function passwordChanged(user, password) {
     // create confirmation code;
-    return new Promise(async (resolve, reject) => {
-        try {
-            user.setPassword(password);
-            await repo.passwordChanged(user);
-            resolve(user);
-        } catch(e) {
-            reject(e);
-        }
+    return Promisify(async () => {
+        user.setPassword(password); // const confirmCode = user.setPassword(password);
+        await repo.passwordChanged(user);
+        return user; // , confirmCode
     });
 }
 
-function passwordConfirmed(user, password/*, confirmCode*/) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            await repo.passwordConfirmed(user);
-            resolve(user);
-        } catch(e) {
-            reject(e);
-        }
+function passwordConfirmed(user, confirmCode) {
+    return Promisify(async () => {
+        user.confirmPassword(confirmCode);
+        await repo.passwordConfirmed(user);
+        return user;
     });
 }
 
 function propertyChanged(user, properties) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            user.setProperties(properties);
-            await repo.propertyChanged(user);
-            resolve(user);
-        } catch(e) {
-            reject(e);
-        }
+    return Promisify(async () => {
+        user.setProperties(properties);
+        await repo.propertyChanged(user);
+        return user;
     });
 }
 
-function getUser(userId) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const user = await repo.getUser(userId);
-            resolve(user);
-        } catch(e) {
-            reject(e);
-        }
-    });
+function getUser(userId, cb) {
+    return Promisify(async () => repo.getUser(userId), cb);
 }
 
-function getUserByEmail(mail) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const user = await repo.getUserByEmail(mail);
-            resolve(user);
-        } catch(e) {
-            reject(e);
-        }
-    });
+function getUserByEmail(mail, cb) {
+    return Promisify(async () => repo.getUserByEmail(mail), cb);
 }
 
-function getUserByUsername(username) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const user = await repo.getUserByUsername(username);
-            resolve(user);
-        } catch(e) {
-            reject(e);
-        }
-    });
+function getUserByUsername(username, cb) {
+    return Promisify(() => repo.getUserByUsername(username), cb);
 }
 
 function checkAuthentication(mail, password) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const user = await getUserByEmail(mail);
-            const authenticated = User.checkPasswords(password, user.password);
-            if (authenticated)
-                resolve(user);
-            else
-                reject({error: 'Wrong password'});
-        } catch(e) {
-            reject(e);
-        }
+    return Promisify(async () => {
+        const user = await getUserByEmail(mail);
+        const authenticated = User.checkPasswords(password, user.password);
+        if (!authenticated)
+            throw new UserError('Wrong password', 403);
+        return user;
     });
 }
 
 module.exports = {
-    userCreated: userCreated,
-    userConfirmed: userConfirmed,
-    userRemoved: userRemoved,
-    passwordChanged: passwordChanged,
+    userCreated,
+    userConfirmed,
+    userRemoved,
+    passwordChanged,
     propertyChanged,
     getUser,
     getUserByEmail,
     getUserByUsername,
     checkAuthentication,
-}
+};

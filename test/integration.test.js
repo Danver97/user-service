@@ -1,10 +1,12 @@
 const request = require('supertest');
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 const ENV = require('../src/env');
-//const app = require('../');
+const repo = require('../modules/repositoryManager');
+// const app = require('../');
 const app = require('../src/app');
+
 const req = request(app);
-//const req = request('http://localhost:3000');
+// const req = request('http://localhost:3000');
 
 function getQueryURL(obj){
     let query = ''
@@ -28,6 +30,13 @@ describe('Integration test exaple', function() {
         password: 'pippopassword',
         name: 'pippo',
     }
+    
+    before(() => {
+        if (ENV.node_env === 'test')
+            repo.reset();
+        else if (ENV.node_env === 'test_event_sourcing')
+            repo.store.reset();
+    });
     
     it('get /', function(done) {
         req
