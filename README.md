@@ -15,6 +15,9 @@ The main focus is now in having everything tested properly and ensure that the p
 
 Secondary note: a big code cleaneage should be done. I'm in the middle of a code refactoring on every microservice repo here on github, so not everything is perfectly cleaned yet.
 
+### Build
+`npm install`
+
 ### Run
 `npm start`
 
