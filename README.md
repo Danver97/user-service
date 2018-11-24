@@ -12,9 +12,7 @@ A big part of the entire project is still under development. In particular every
 - Enqueue them in an event broker (on AWS: SQS)
 - Poll the event broker and make events deduplication & idempotency checks before applying them on the projection.
 
-The main focus is now in having everything tested properly and ensure that the project is still "infrastructure independent": the goal is to define an interface for event store and event broker in order to easily move from the cloud to a local deployment (or from one cloud provider to another) just using new implementations for event store and event broker.
-
-Secondary note: a big code cleaneage should be done. I'm in the middle of a code refactoring on every microservice repo here on github, so not everything is perfectly cleaned yet.
+The main focus is now in having everything tested properly and ensure that the project is still "infrastructure independent": the goal is to define an interface for event store and event broker in order to easily move from the cloud to a local deployment (or from one cloud provider to another) just using new implementations for event store and event broker. (**Done: 24/11/2018**)
 
 ### Build
 `npm install`
