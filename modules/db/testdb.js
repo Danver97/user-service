@@ -1,7 +1,7 @@
 const EventEmitter = require('events');
-const UserEvents = require('../user-events');
-const UserError = require('../../errors/user_error');
-const User = require('../../models/user');
+const UserEvents = require('../../lib/user-events');
+const UserError = require('../../domain/errors/user_error');
+const User = require('../../domain/models/user');
 const Promisify = require('../../lib/utils').promisify;
 
 const emitter = new EventEmitter();

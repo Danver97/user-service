@@ -1,9 +1,9 @@
 const assert = require('assert');
 const bcrypt = require('bcrypt');
-const User = require('../models/user');
-const UserError = require('../errors/user_error');
-const repo = require('../modules/repositoryManager');
-const usrManager = require('../modules/userManager');
+const User = require('../domain/models/user');
+const UserError = require('../domain/errors/user_error');
+const repo = require('../infrastructure/repository/repositoryManager')('testdb');
+const usrManager = require('../domain/logic/userManager')(repo);
 const ENV = require('../src/env');
 
 const waitAsync = ms => new Promise(resolve => setTimeout(() => resolve(), ms));
@@ -28,7 +28,7 @@ describe('UserManager unit test', function () {
         if (ENV.node_env === 'test')
             repo.reset();
         else if (ENV.node_env === 'test_event_sourcing')
-            repo.store.reset();
+            repo.reset();
     });
     
     it('check if userCreated() works', async function() {
@@ -123,6 +123,7 @@ describe('UserManager unit test', function () {
         equalsUser(result, user);
     });
     
+    /*
     it('check if getUserByEmail() works', async function() {
         const result = await usrManager.getUserByEmail(user.email);
         equalsUser(result, user);
@@ -137,4 +138,5 @@ describe('UserManager unit test', function () {
         const result = await usrManager.checkAuthentication(user.email, newPass);
         equalsUser(result, user);
     });
+    */
 });

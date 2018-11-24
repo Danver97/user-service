@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const uuidv4 = require('uuid/v4');
 const UserError = require('../errors/user_error');
-const confirmCode = require('../lib/utils').randomCode;
+const confirmCode = require('../../lib/utils').randomCode;
 
 const saltRounds = 10;
 
@@ -24,6 +24,7 @@ class User {
         this.name = name;
         this.surname = surname;
         this.statusid = 0;
+        this.confirmPasswordCode = undefined;
     }
     
     static fromObject(obj) {
@@ -32,11 +33,12 @@ class User {
         user.passwordstatus = obj.passwordstatus;
         user.status = obj.status;
         user.statusid = obj.statusid;
+        user.confirmPasswordCode = obj.confirmPasswordCode;
         return user;
     }
     
     static checkPasswords(password, hash) {
-        return bcrypt.compare(password, hash);
+        return bcrypt.compareSync(password, hash);
     }
     
     setProperties(props) {
@@ -53,12 +55,13 @@ class User {
             throw new UserError('Missing password param');
         this.password = bcrypt.hashSync(password, saltRounds);
         this.passwordstatus = 'pending';
-        this.confirmPasswordCode = bcrypt.hashSync(confirmCode(99999, 0, 5), saltRounds);
-        return this.confirmPasswordCode;
+        const cc = confirmCode(99999, 0, 5);
+        this.confirmPasswordCode = bcrypt.hashSync(cc, saltRounds);
+        return cc;
     }
     
     confirmPassword(code) {
-        if (!bcrypt.compare(code, this.confirmPasswordCode))
+        if (!bcrypt.compareSync(code, this.confirmPasswordCode))
             throw new UserError('Wrong confirmation code!');
         this.passwordstatus = 'confirmed';
         this.confirmPasswordCode = undefined;

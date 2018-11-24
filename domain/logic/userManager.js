@@ -1,7 +1,8 @@
-const repo = require('./repositoryManager');
 const User = require('../models/user');
 const UserError = require('../errors/user_error');
-const Promisify = require('../lib/utils').promisify;
+const Promisify = require('../../lib/utils').promisify;
+
+let repo;
 
 function userCreated(user, cb) {
     return Promisify(async () => {
@@ -56,6 +57,7 @@ function getUser(userId, cb) {
     return Promisify(async () => repo.getUser(userId), cb);
 }
 
+/*
 function getUserByEmail(mail, cb) {
     return Promisify(async () => repo.getUserByEmail(mail), cb);
 }
@@ -73,15 +75,22 @@ function checkAuthentication(mail, password) {
         return user;
     });
 }
+*/
 
-module.exports = {
-    userCreated,
-    userConfirmed,
-    userRemoved,
-    passwordChanged,
-    propertyChanged,
-    getUser,
-    getUserByEmail,
-    getUserByUsername,
-    checkAuthentication,
-};
+function exportFunc(db) {
+    repo = db;
+    return {
+        userCreated,
+        userConfirmed,
+        userRemoved,
+        passwordChanged,
+        passwordConfirmed,
+        propertyChanged,
+        getUser,
+        // getUserByEmail,
+        // getUserByUsername,
+        // checkAuthentication,
+    };
+}
+
+module.exports = exportFunc;

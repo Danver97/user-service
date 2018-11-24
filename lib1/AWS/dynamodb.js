@@ -10,15 +10,11 @@ const ddb = new DDB(dbparams);
 let tableName = null;
 let tableArn = null;
 
-function getTableName(microserviceName) {
-    return `${microserviceName}EventStreamTable`;
-}
-
 async function init(microserviceName) {
     console.log('ddb init');
     if (!microserviceName)
         throw new Error('DynamoDb: microservice name not specified on initialization.');
-    tableName = getTableName(microserviceName);
+    tableName = `${microserviceName}EventStreamTable`;
     const tableParams = {
         AttributeDefinitions: [
             {
@@ -82,7 +78,6 @@ async function getTableStreamArn() {
 module.exports = {
     ddb,
     init,
-    getTableName,
     getTableArn,
     getTableStreamArn,
 };

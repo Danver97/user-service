@@ -1,7 +1,7 @@
 const assert = require('assert');
 const bcrypt = require('bcrypt');
-const User = require('../models/user');
-const UserError = require('../errors/user_error');
+const User = require('../domain/models/user');
+const UserError = require('../domain/errors/user_error');
 
 
 describe('User class unit test', function() {

@@ -2,8 +2,8 @@ const ENV = require('../../src/env');
 const EventBroker = require('./eventBroker');
 const EventStore = require('./eventStore');
 const Event = require('./event');
-const UserEvents = require('../user-events');
-const User = require('../../models/user');
+const UserEvents = require('../../lib/user-events');
+const User = require('../../domain/models/user');
 const Promisify = require('../../lib/utils').promisify;
 
 let broker;

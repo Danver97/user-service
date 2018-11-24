@@ -3,8 +3,9 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 
 const ENV = require('./env');
-const usrManager = require('../modules/userManager');
-const User = require('../models/user');
+const repo = require('../infrastructure/repository/repositoryManager')();
+const usrManager = require('../domain/logic/userManager')(repo);
+const User = require('../domain/models/user');
 
 const app = express();
 
