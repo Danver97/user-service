@@ -1,7 +1,7 @@
+const Promisify = require('promisify-cb');
 const User = require('../../domain/models/user');
 const UserError = require('../../domain/errors/user_error');
 const UserEvents = require('../../lib/user-events');
-const Promisify = require('../../lib/utils').promisify;
 
 function userCreated(user, cb) {
     return this.save(user.id, user._revisionId, UserEvents.userCreated, user, cb);
@@ -17,10 +17,10 @@ function userRemoved(user, cb) {
 
 function passwordChanged(user, cb) {
     return this.save(
-        user.id, 
-        user._revisionId, 
-        UserEvents.passwordChanged, 
-        { password: user.password, confirmPasswordCode: user.confirmPasswordCode }, 
+        user.id,
+        user._revisionId,
+        UserEvents.passwordChanged,
+        { password: user.password, confirmPasswordCode: user.confirmPasswordCode },
         cb,
     );
 }

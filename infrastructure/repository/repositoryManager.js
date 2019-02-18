@@ -1,8 +1,8 @@
+const dbs = require('@danver97/event-sourcing/eventStore');
+const implem = require('implemented');
 const ENV = require('../../src/env');
-const dbs = require('../../lib/eventSourcing/eventStore');
 const repoImpl = require('./repoImpl');
 
-const implem = require('../../lib/implements');
 
 const Property = implem.Property;
 

@@ -1,6 +1,6 @@
+const Promisify = require('promisify-cb');
 const User = require('../models/user');
 const UserError = require('../errors/user_error');
-const Promisify = require('../../lib/utils').promisify;
 
 let repo;
 
