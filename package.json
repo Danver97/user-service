@@ -4,14 +4,14 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "test": "mocha",
-    "test-coverage": "nyc mocha"
+    "test": "mocha --exit ./test/test",
+    "test-coverage": "nyc mocha --exit ./test/test"
   },
   "author": "Christian Paesante",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@danver97/event-sourcing": "^1.0.3",
+    "@danver97/event-sourcing": "^2.0.6",
     "aws-sdk": "^2.361.0",
     "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",

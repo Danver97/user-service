@@ -14,8 +14,6 @@ const interf = {
     passwordConfirmed: new Property('function', 2),
     propertyChanged: new Property('function', 2),
     getUser: new Property('function', 2),
-    // getUserByEmail: new Property('function', 2),
-    // getUserByUsername: new Property('function', 2),
 };
 
 function exportFunc(db) {

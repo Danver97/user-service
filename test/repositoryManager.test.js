@@ -64,7 +64,7 @@ describe('RepositoryManager unit test', function () {
         assert.deepStrictEqual(event.message, UserEvents.userCreated);
         equalsPayload(event.payload, deepCopy(user));
         // console.log('before await ' + Date.now());
-        await waitAsync(waitTimeout);
+        // await waitAsync(waitTimeout);
         // console.log('awaited ' + Date.now());
         const eventStored = await getLastEventStored(user.id);
         equalsEvent(eventStored, user.id, UserEvents.userCreated, user);
@@ -79,7 +79,7 @@ describe('RepositoryManager unit test', function () {
         assert.deepStrictEqual(event.message, UserEvents.userConfirmed);
         equalsPayload(event.payload, { status: userFromDb.status, statusid: userFromDb.statusid });
 
-        await waitAsync(waitTimeout);
+        // await waitAsync(waitTimeout);
         const stream = await repo.getStream(user.id)
         const eventStored = stream[stream.length - 1];
         equalsEvent(eventStored, user.id, UserEvents.userConfirmed, { status: userFromDb.status, statusid: userFromDb.statusid });
@@ -94,7 +94,7 @@ describe('RepositoryManager unit test', function () {
         assert.deepStrictEqual(event.message, UserEvents.userRemoved);
         equalsPayload(event.payload, { status: userFromDb.status, statusid: userFromDb.statusid });
 
-        await waitAsync(waitTimeout);
+        //await waitAsync(waitTimeout);
         const eventStored = await getLastEventStored(user.id);
         equalsEvent(eventStored, user.id, UserEvents.userRemoved, { status: userFromDb.status, statusid: userFromDb.statusid });
     });
@@ -108,7 +108,7 @@ describe('RepositoryManager unit test', function () {
         assert.deepStrictEqual(event.message, UserEvents.passwordChanged);
         equalsPayload(event.payload, { password: userFromDb.password });
 
-        await waitAsync(waitTimeout);
+        // await waitAsync(waitTimeout);
         const eventStored = await getLastEventStored(user.id);
         equalsEvent(eventStored, user.id, UserEvents.passwordChanged, { password: userFromDb.password });
     });
@@ -121,7 +121,7 @@ describe('RepositoryManager unit test', function () {
         assert.deepStrictEqual(event.message, UserEvents.passwordConfirmed);
         equalsPayload(event.payload, { passwordstatus: userFromDb.passwordstatus });
 
-        await waitAsync(waitTimeout);
+        // await waitAsync(waitTimeout);
         const eventStored = await getLastEventStored(user.id);
         equalsEvent(eventStored, user.id, UserEvents.passwordConfirmed, { passwordstatus: userFromDb.passwordstatus });
     });
@@ -135,13 +135,13 @@ describe('RepositoryManager unit test', function () {
         assert.deepStrictEqual(event.message, UserEvents.propertyChanged);
         equalsUser(event.payload, userFromDb);
 
-        await waitAsync(waitTimeout);
+        // await waitAsync(waitTimeout);
         const eventStored = await getLastEventStored(user.id);
         equalsEvent(eventStored, user.id, UserEvents.propertyChanged, userFromDb);
     });
 
     it('check if getUser() works', async function () {
-        await waitAsync(waitTimeout);
+        // await waitAsync(waitTimeout);
         const result = await repo.getUser(user.id);
         equalsUser(result, user);
     });

@@ -1,12 +1,13 @@
 class ExtendableError extends Error {
-    constructor(message) {
+    constructor(message, code) {
         super(message);
+        this.msg = message;
         this.name = this.constructor.name;
-        if (typeof Error.captureStackTrace === 'function') {
+        if (code) this.code = code;
+        if (typeof Error.captureStackTrace === 'function')
             Error.captureStackTrace(this, this.constructor);
-        } else {
+        else
             this.stack = (new Error(message)).stack;
-        }
     }
 }
 

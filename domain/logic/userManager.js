@@ -32,8 +32,8 @@ function passwordChanged(user, password) {
     // create confirmation code;
     return Promisify(async () => {
         user.setPassword(password); // const confirmCode = user.setPassword(password);
-        await repo.passwordChanged(user);
-        return user; // , confirmCode
+        await repo.passwordChanged(user); // , confirmCode
+        return user;
     });
 }
 
@@ -56,16 +56,7 @@ function propertyChanged(user, properties) {
 function getUser(userId, cb) {
     return Promisify(async () => repo.getUser(userId), cb);
 }
-
 /*
-function getUserByEmail(mail, cb) {
-    return Promisify(async () => repo.getUserByEmail(mail), cb);
-}
-
-function getUserByUsername(username, cb) {
-    return Promisify(() => repo.getUserByUsername(username), cb);
-}
-
 function checkAuthentication(mail, password) {
     return Promisify(async () => {
         const user = await getUserByEmail(mail);

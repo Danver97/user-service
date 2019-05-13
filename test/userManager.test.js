@@ -41,7 +41,7 @@ describe('UserManager unit test', function () {
             err = e;
         }
         assert.throws(() => { throw err; }, UserError);
-        await waitAsync(waitTimeout);
+        // await waitAsync(waitTimeout);
         const result = await usrManager.getUser(user.id);
         equalsUser(result, user);
     });
@@ -63,7 +63,7 @@ describe('UserManager unit test', function () {
             err = e;
         }
         assert.throws(() => { throw err; }, UserError);
-        await waitAsync(waitTimeout);
+        // await waitAsync(waitTimeout);
         const result = await usrManager.getUser(user.id);
         equalsUser(result, user);
     });
@@ -92,7 +92,7 @@ describe('UserManager unit test', function () {
             err = e;
         }
         assert.throws(() => { throw err; }, UserError);
-        await waitAsync(waitTimeout);
+        // await waitAsync(waitTimeout);
         const result = await usrManager.getUser(user.id);
         equalsUser(result, user);
     });
@@ -101,7 +101,7 @@ describe('UserManager unit test', function () {
         await usrManager.passwordChanged(user, newPass);
         const match = bcrypt.compareSync(newPass, user.password);
         assert.strictEqual(match, true);
-        await waitAsync(waitTimeout);
+        // await waitAsync(waitTimeout);
         const result = await usrManager.getUser(user.id);
         equalsUser(result, user, true);
     });
@@ -113,7 +113,7 @@ describe('UserManager unit test', function () {
         assert.strictEqual(user.name, newProps.name);
         const match = bcrypt.compareSync('newPass', user.password);
         assert.strictEqual(match, true);
-        await waitAsync(waitTimeout);
+        // await waitAsync(waitTimeout);
         const result = await usrManager.getUser(user.id);
         equalsUser(result, user);
     });
