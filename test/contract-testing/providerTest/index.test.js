@@ -1,7 +1,6 @@
 const uuid = require('uuid/v4');
 const repo = require('../../../infrastructure/repository/repositoryManager')('testdb');
 const User = require('../../../domain/models/user');
-// const testUtils = require('../../test-utils');
 const Interactor = require('./utils');
 
 function userCreated() {

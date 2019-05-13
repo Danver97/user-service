@@ -1,6 +1,5 @@
 const repo = require('../../../infrastructure/repository/repositoryManager')('testdb');
 const User = require('../../../domain/models/user');
-// const testUtils = require('../../test-utils');
 const eventContent = require('./eventContent');
 const Interactor = require('./utils');
 
